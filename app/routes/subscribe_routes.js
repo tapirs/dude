@@ -5,12 +5,12 @@ const corsOptions = {
 }
 
 module.exports = function(app, db, cors) {
-  app.options('/contact', cors());
-  app.options('/contact/:id', cors());
-  app.get('/contact/:id', cors(corsOptions), (req, res) => {
+  app.options('/subscribe', cors());
+  app.options('/subscribe/:id', cors());
+  app.get('/subscribe/:id', cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
-    db.collection('contact').findOne(details, (err, item) => {
+    db.collection('subscribe').findOne(details, (err, item) => {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
@@ -18,8 +18,8 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.get('/contact', cors(corsOptions), (req, res) => {
-    db.collection('contact').find({}).toArray((err, item) => {
+  app.get('/subscribe', cors(corsOptions), (req, res) => {
+    db.collection('subscribe').find({}).toArray((err, item) => {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
@@ -27,7 +27,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.post('/contact', cors(corsOptions), (req, res) => {
+  app.post('/subscribe', cors(corsOptions), (req, res) => {
     let charity = '{'
     for(var prop in req.body) {
       if(req.body[prop] == "true" || req.body[prop] == "false") {
@@ -38,7 +38,7 @@ module.exports = function(app, db, cors) {
     }
     charity = charity.substring(0,charity.length -1)
     charity += '}'
-    db.collection('contact').insertOne(JSON.parse(charity), (err, result) => {
+    db.collection('subscribe').insertOne(JSON.parse(charity), (err, result) => {
       if (err) {
         res.send({ 'error': 'An error has occurred' });
       } else {
@@ -46,10 +46,10 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.delete('/contact/:id', cors(corsOptions), (req, res) => {
+  app.delete('/subscribe/:id', cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
-    db.collection('contact').deleteOne(details, (err, item) => {
+    db.collection('subscribe').deleteOne(details, (err, item) => {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
@@ -57,7 +57,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.put('/contact/:id', cors(corsOptions), (req, res) => {
+  app.put('/subscribe/:id', cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     let charity = '{'
@@ -70,7 +70,7 @@ module.exports = function(app, db, cors) {
     }
     charity =  charity.substring(0,charity.length -1)
     charity += '}'
-    db.collection('contact').updateOne(details, { $set: JSON.parse(charity)}, (err, result) => {
+    db.collection('subscribe').updateOne(details, { $set: JSON.parse(charity)}, (err, result) => {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
@@ -78,9 +78,9 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.get('/contact/admin/keys', cors(corsOptions), (req, res) => {
+  app.get('/subscribe/admin/keys', cors(corsOptions), (req, res) => {
     const details = { 'charity_name': 'Rethink' };
-    db.collection('contact').findOne( details, (err, result) => {
+    db.collection('subscribe').findOne( details, (err, result) => {
       if (err) {
           res.send({'error':'An error has occurred'});
         } else {
