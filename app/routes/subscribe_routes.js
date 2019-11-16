@@ -42,7 +42,7 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({ 'error': 'An error has occurred' });
       } else {
-        res.redirect('/message_received.php');
+        res.redirect('/thanks_for_subscribing.php');
       }
     });
   });
