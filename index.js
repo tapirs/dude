@@ -8,7 +8,7 @@ const cors           = require('cors');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug');
-app.set('views', './views')
+app.set('views', __dirname + '/views/');
 MongoClient.connect(db.url, (err, database) => {
   if (err) return console.log(err)
   require('./app/routes')
