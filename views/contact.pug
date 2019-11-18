@@ -3,5 +3,28 @@ html
     title= "Dude - Contact"
   body
     h1= "Contact"
-    each item in list
-      li= item
+    main
+      .container
+      table.table
+        tr
+          th Name
+          th Email
+          th Phone
+          th Contact Method
+          th Message
+          th
+          th
+        tbody
+          each item in list
+            tr
+              td= item.name
+              td= item.email
+              td= item.phone
+              td= item.contact_method
+              td
+                | #{item.subject}
+                br
+                | #{item.message}
+              td
+                form(action='contact/' + item._id + '?_method=DELETE', method='POST')
+                  input(type='submit', value='Delete')

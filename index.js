@@ -1,4 +1,5 @@
 const express        = require('express');
+const methodOverride = require('method-override');
 const MongoClient    = require('mongodb').MongoClient;
 const bodyParser     = require('body-parser');
 const app            = express();
@@ -7,6 +8,7 @@ const db             = require('./config/db');
 const cors           = require('cors');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views/');
 MongoClient.connect(db.url, (err, database) => {
