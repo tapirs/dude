@@ -1,5 +1,6 @@
 const express        = require('express');
 const methodOverride = require('method-override');
+const session = require("express-session");
 const MongoClient    = require('mongodb').MongoClient;
 const bodyParser     = require('body-parser');
 const app            = express();
@@ -9,6 +10,11 @@ const cors           = require('cors');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(session({
+  secret: 'jrehgruethuioafhegBUFIEHFEui3482954hu4ialgbr',
+  resave: true,
+  saveUninitialized: false
+}));
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views/');
 MongoClient.connect(db.url, (err, database) => {
