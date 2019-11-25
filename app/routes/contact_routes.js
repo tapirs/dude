@@ -88,4 +88,11 @@ module.exports = function(app, db, cors) {
         }
     });
   });
+  app.post('contact/reply', cors(corsOptions), (req, res) => {
+    let email = req.body["email"];
+    let subject = "RE: " + req.body["subject"];
+    let message = "\n\n======================================================\n\n" + req.body["message"];
+
+    res.render('reply', {email: email, subject: subject, message: message});
+  });
 }

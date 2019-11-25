@@ -1,0 +1,15 @@
+html
+  head
+    title= "Dude - Reply"
+  body
+    h1= "Reply"
+    main
+      .container
+        form(action='contact/send', method='POST')
+          label(for='email') Email:
+          input#email.form-control(type='email', name='email', value=email)
+          label(for='subject') Subject:
+          input#subject.form-control(type='text', name='subject', value=subject)
+          label(for='message') Message:
+          input#message.form-control(type='textarea', name='message', value=message)
+          button.btn.btn-primary(type='submit') Reply

@@ -7,6 +7,7 @@ const app            = express();
 const port           = 8001;
 const db             = require('./config/db');
 const cors           = require('cors');
+const nodemailer = require('nodemailer');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
