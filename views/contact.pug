@@ -17,8 +17,10 @@ html
         tbody
           each item in list
             tr
+              - var href = "contact/" + item._id;
               td= item.name
-              td= item.email
+              td
+                | #[a(href=href) #{item.email}]
               td= item.phone
               td= item.contact_method
               td
@@ -30,4 +32,7 @@ html
                   input(type='submit', value='Delete')
               td
                 form(action='contact/reply', method='POST')
+                  input(type='email', name='email', value=item.email, hidden=true)
+                  input(type='text', name='subject', value=item.subject, hidden=true)
+                  input(type='textarea', name='message', value=item.message, hidden=true)
                   input(type='submit', value='Reply')

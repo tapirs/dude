@@ -1,0 +1,25 @@
+html
+  head
+    title= "Dude - Contact"
+  body
+    h1= contact.name
+    main
+      .container
+        form(action='/dude/contact?_method="GET"')
+          div.form-group
+            input(type='text', name='name', value=contact.name)
+          div.form-group
+            input(type='text', name='contact_method', value=contact.contact_method)
+          div.form-group
+            input(type='email', name='email', value=contact.email)
+          div.form-group
+            input(type='phone', name='phone', value=contact.phone)
+          div.form-group
+            input(type='text', name='subject', value=contact.subject)
+          div.form-group
+            textarea#message.form-control(name='message', value=contact.message, rows='20', cols='100')= contact.message
+          div.form-group
+            input(type='submit', value='Reply', formaction='/dude/contact/reply', formmethod='POST')
+            input(type='submit', value='Cancel')
+            input(type='submit', value='Save', formaction='/dude/contact/' + contact._id + '?_method=PUT', formmethod='POST')
+            input(type='submit', value='Delete', formaction='/dude/contact/' + contact._id + '?_method=DELETE', formmethod='POST')

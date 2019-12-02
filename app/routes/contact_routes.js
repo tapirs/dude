@@ -3,6 +3,7 @@ const corsOptions = {
   origin: 'http://127.0.0.1',
   methods: ['GET', 'POST', 'DELETE', 'PUT']
 }
+const nodemailer = require('nodemailer');
 
 module.exports = function(app, db, cors) {
   app.options('/contact', cors());
@@ -14,7 +15,7 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
-        res.send(item);
+        res.render('contact-item', {contact: item});
       }
     });
   });
@@ -23,6 +24,7 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
+        console.log(item);
         res.render('contact', {list: item});
       }
     });
@@ -74,7 +76,7 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
-        res.send(result);
+        res.redirect('/dude/contact/' + id);
       }
     });
   });
@@ -88,11 +90,33 @@ module.exports = function(app, db, cors) {
         }
     });
   });
-  app.post('contact/reply', cors(corsOptions), (req, res) => {
+  app.post('/contact/reply', cors(corsOptions), (req, res) => {
     let email = req.body["email"];
     let subject = "RE: " + req.body["subject"];
     let message = "\n\n======================================================\n\n" + req.body["message"];
 
     res.render('reply', {email: email, subject: subject, message: message});
+  });
+  app.post('/contact/send', cors(corsOptions), (req, res) => {
+    let email = req.body["email"];
+    let subject = req.body["subject"];
+    let message = req.body["message"];
+
+    var transporter = nodemailer.createTransport(config.email);
+
+    var mailOptions = {
+      from: 'no-reply@tapirs.co.uk',
+      to: email,
+      subject: subject,
+      text: message
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        res.redirect('/dude/contact');
+      }
+    });
   });
 }
