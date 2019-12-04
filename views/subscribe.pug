@@ -1,0 +1,22 @@
+html
+  head
+    title= "Dude - Contact"
+  body
+    h1= "subscribe"
+    main
+      .container
+      table.table
+        tr
+          th Name
+          th Email
+          th
+        tbody
+          each item in list
+            tr
+              - var href = "contact/" + item._id;
+              td= item.name
+              td
+                | #[a(href=href) #{item.email}]
+              td
+                form(action='contact/' + item._id + '?_method=DELETE', method='POST')
+                  input(type='submit', value='Delete')
