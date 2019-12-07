@@ -23,22 +23,22 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
-        res.render('subscribe', {list: item);
+        res.render('subscribe', {list: item});
       }
     });
   });
   app.post('/subscribe', cors(corsOptions), (req, res) => {
-    let charity = '{'
+    let subscribe = '{'
     for(var prop in req.body) {
       if(req.body[prop] == "true" || req.body[prop] == "false") {
-        charity += '"' + prop + '":' + req.body[prop] + ','
+        subscribe += '"' + prop + '":' + req.body[prop] + ','
       } else {
-        charity += '"' + prop + '":' + '"' + req.body[prop] + '",'
+        subscribe += '"' + prop + '":' + '"' + req.body[prop] + '",'
       }
     }
-    charity = charity.substring(0,charity.length -1)
-    charity += '}'
-    db.collection('subscribe').insertOne(JSON.parse(charity), (err, result) => {
+    subscribe = subscribe.substring(0,subscribe.length -1)
+    subscribe += '}'
+    db.collection('subscribe').insertOne(JSON.parse(subscribe), (err, result) => {
       if (err) {
         res.send({ 'error': 'An error has occurred' });
       } else {
@@ -53,33 +53,34 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
-        res.send('Charity ' + id + ' deleted!');
+        console.log('Subscriber' + id + ' deleted!');
+        res.redirect('/dude/subscribe');
       }
     });
   });
   app.put('/subscribe/:id', cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
-    let charity = '{'
+    let subscribe = '{'
     for(var prop in req.body) {
       if(req.body[prop] == "true" || req.body[prop] == "false") {
-        charity += '"' + prop + '":' + req.body[prop] + ','
+        subscribe += '"' + prop + '":' + req.body[prop] + ','
       } else {
-        charity += '"' + prop + '":' + '"' + req.body[prop] + '",'
+        subscribe += '"' + prop + '":' + '"' + req.body[prop] + '",'
       }
     }
-    charity =  charity.substring(0,charity.length -1)
-    charity += '}'
-    db.collection('subscribe').updateOne(details, { $set: JSON.parse(charity)}, (err, result) => {
+    subscribe =  subscribe.substring(0,subscribe.length -1)
+    subscribe += '}'
+    db.collection('subscribe').updateOne(details, { $set: JSON.parse(subscribe)}, (err, result) => {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
-        res.send(result);
+        res.redirect('/dude/subscribe/' + id);
       }
     });
   });
   app.get('/subscribe/admin/keys', cors(corsOptions), (req, res) => {
-    const details = { 'charity_name': 'Rethink' };
+    const details = { 'subscribe_name': 'Rethink' };
     db.collection('subscribe').findOne( details, (err, result) => {
       if (err) {
           res.send({'error':'An error has occurred'});

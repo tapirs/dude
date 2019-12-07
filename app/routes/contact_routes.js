@@ -30,17 +30,17 @@ module.exports = function(app, db, cors) {
     });
   });
   app.post('/contact', cors(corsOptions), (req, res) => {
-    let charity = '{'
+    let contact = '{'
     for(var prop in req.body) {
       if(req.body[prop] == "true" || req.body[prop] == "false") {
-        charity += '"' + prop + '":' + req.body[prop] + ','
+        contact += '"' + prop + '":' + req.body[prop] + ','
       } else {
-        charity += '"' + prop + '":' + '"' + req.body[prop] + '",'
+        contact += '"' + prop + '":' + '"' + req.body[prop] + '",'
       }
     }
-    charity = charity.substring(0,charity.length -1)
-    charity += '}'
-    db.collection('contact').insertOne(JSON.parse(charity), (err, result) => {
+    contact = contact.substring(0,contact.length -1)
+    contact += '}'
+    db.collection('contact').insertOne(JSON.parse(contact), (err, result) => {
       if (err) {
         res.send({ 'error': 'An error has occurred' });
       } else {
@@ -55,7 +55,7 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
-        console.log('Charity ' + id + ' deleted!');
+        console.log('Contact' + id + ' deleted!');
         res.redirect('/dude/contact');
       }
     });
@@ -63,17 +63,17 @@ module.exports = function(app, db, cors) {
   app.put('/contact/:id', cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
-    let charity = '{'
+    let contact = '{'
     for(var prop in req.body) {
       if(req.body[prop] == "true" || req.body[prop] == "false") {
-        charity += '"' + prop + '":' + req.body[prop] + ','
+        contact += '"' + prop + '":' + req.body[prop] + ','
       } else {
-        charity += '"' + prop + '":' + '"' + req.body[prop] + '",'
+        contact += '"' + prop + '":' + '"' + req.body[prop] + '",'
       }
     }
-    charity =  charity.substring(0,charity.length -1)
-    charity += '}'
-    db.collection('contact').updateOne(details, { $set: JSON.parse(charity)}, (err, result) => {
+    contact =  contact.substring(0,contact.length -1)
+    contact += '}'
+    db.collection('contact').updateOne(details, { $set: JSON.parse(contact)}, (err, result) => {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
@@ -82,7 +82,7 @@ module.exports = function(app, db, cors) {
     });
   });
   app.get('/contact/admin/keys', cors(corsOptions), (req, res) => {
-    const details = { 'charity_name': 'Rethink' };
+    const details = { 'contact_name': 'Rethink' };
     db.collection('contact').findOne( details, (err, result) => {
       if (err) {
           res.send({'error':'An error has occurred'});
