@@ -11,13 +11,7 @@ const session = require('express-session');
 const { ExpressOIDC } = require('@okta/oidc-middleware');
 var env = process.env.NODE_ENV || 'development';
 var config = require('./config/config')[env];
-const oidc = new ExpressOIDC({
-  issuer: 'https://${yourOktaDomain}/oauth2/default',
-  client_id: '{clientId}',
-  client_secret: '{clientSecret}',
-  redirect_uri: 'http://localhost:3000/authorization-code/callback',
-  scope: 'openid profile'
-});
+const oidc = new ExpressOIDC(config.okta);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
