@@ -1,6 +1,6 @@
 html
   head
-    title= "Dude - Contact"
+    title= "Dude - subscribe"
   body
     h1= "subscribe"
     main
@@ -13,10 +13,10 @@ html
         tbody
           each item in list
             tr
-              - var href = "contact/" + item._id;
+              - var href = "subscribe/" + item._id;
               td= item.name
               td
                 | #[a(href=href) #{item.email}]
               td
-                form(action='contact/' + item._id + '?_method=DELETE', method='POST')
+                form(action='subscribe/' + item._id + '?_method=DELETE', method='POST')
                   input(type='submit', value='Delete')

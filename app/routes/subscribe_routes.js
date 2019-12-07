@@ -23,7 +23,7 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
-        res.send(item);
+        res.render('subscribe', {list: item);
       }
     });
   });
