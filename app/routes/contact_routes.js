@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 module.exports = function(app, db, cors) {
   app.options('/contact', cors());
   app.options('/contact/:id', cors());
-  app.get('/contact/:id', cors(corsOptions), (req, res) => {
+  app.get('/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     db.collection('contact').findOne(details, (err, item) => {
@@ -19,7 +19,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.get('/contact', cors(corsOptions), (req, res) => {
+  app.get('/contact', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     db.collection('contact').find({}).toArray((err, item) => {
       if (err) {
         res.send({'error':'An error has occurred'});
@@ -29,7 +29,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.post('/contact', cors(corsOptions), (req, res) => {
+  app.post('/contact', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     let contact = '{'
     for(var prop in req.body) {
       if(req.body[prop] == "true" || req.body[prop] == "false") {
@@ -48,7 +48,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.delete('/contact/:id', cors(corsOptions), (req, res) => {
+  app.delete('/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     db.collection('contact').deleteOne(details, (err, item) => {
@@ -60,7 +60,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.put('/contact/:id', cors(corsOptions), (req, res) => {
+  app.put('/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     let contact = '{'
@@ -81,7 +81,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.get('/contact/admin/keys', cors(corsOptions), (req, res) => {
+  app.get('/contact/admin/keys', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const details = { 'contact_name': 'Rethink' };
     db.collection('contact').findOne( details, (err, result) => {
       if (err) {
@@ -91,14 +91,14 @@ module.exports = function(app, db, cors) {
         }
     });
   });
-  app.post('/contact/reply', cors(corsOptions), (req, res) => {
+  app.post('/contact/reply', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     let email = req.body["email"];
     let subject = "RE: " + req.body["subject"];
     let message = "\n\n======================================================\n\n" + req.body["message"];
 
     res.render('reply', {email: email, subject: subject, message: message});
   });
-  app.post('/contact/send', cors(corsOptions), (req, res) => {
+  app.post('/contact/send', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     let email = req.body["email"];
     let subject = req.body["subject"];
     let message = req.body["message"];

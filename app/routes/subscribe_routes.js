@@ -7,7 +7,7 @@ const corsOptions = {
 module.exports = function(app, db, cors) {
   app.options('/subscribe', cors());
   app.options('/subscribe/:id', cors());
-  app.get('/subscribe/:id', cors(corsOptions), (req, res) => {
+  app.get('/subscribe/:id', , (corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     db.collection('subscribe').findOne(details, (err, item) => {
@@ -18,7 +18,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.get('/subscribe', cors(corsOptions), (req, res) => {
+  app.get('/subscribe', , oidc.ensureAuthenticated()cors(corsOptions), (req, res) => {
     db.collection('subscribe').find({}).toArray((err, item) => {
       if (err) {
         res.send({'error':'An error has occurred'});
@@ -27,7 +27,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.post('/subscribe', cors(corsOptions), (req, res) => {
+  app.post('/subscribe', , oidc.ensureAuthenticated()cors(corsOptions), (req, res) => {
     let subscribe = '{'
     for(var prop in req.body) {
       if(req.body[prop] == "true" || req.body[prop] == "false") {
@@ -46,7 +46,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.delete('/subscribe/:id', cors(corsOptions), (req, res) => {
+  app.delete('/subscribe/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     db.collection('subscribe').deleteOne(details, (err, item) => {
@@ -58,7 +58,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.put('/subscribe/:id', cors(corsOptions), (req, res) => {
+  app.put('/subscribe/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     let subscribe = '{'
@@ -79,7 +79,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.get('/subscribe/admin/keys', cors(corsOptions), (req, res) => {
+  app.get('/subscribe/admin/keys', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const details = { 'subscribe_name': 'Rethink' };
     db.collection('subscribe').findOne( details, (err, result) => {
       if (err) {
