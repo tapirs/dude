@@ -25,7 +25,7 @@ app.set('views', __dirname + '/views/');
 MongoClient.connect(db.url, (err, database) => {
   if (err) return console.log(err)
   require('./app/routes')
-  (app, database.db('dude'), cors);
+  (app, database.db('dude'), oidc, cors);
 
   // Make sure you add the database name and not the collection name  const database = database.db("note-api")
   oidc.on('ready', () => {
