@@ -7,10 +7,9 @@ const app            = express();
 const port           = 8001;
 const db             = require('./config/db');
 const cors           = require('cors');
-const session = require('express-session');
 const { ExpressOIDC } = require('@okta/oidc-middleware');
-var env = process.env.NODE_ENV || 'development';
-var config = require('./config/config')[env];
+
+var config = require('./config/config');
 const oidc = new ExpressOIDC(config.okta);
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,7 +30,7 @@ MongoClient.connect(db.url, (err, database) => {
   // Make sure you add the database name and not the collection name  const database = database.db("note-api")
   oidc.on('ready', () => {
     app.listen(port, () => {  console.log('We are live on ' + port); });
-  }
+  });
 
   oidc.on('error', err => {
     console.log('Unable to configure ExpressOIDC', err);
