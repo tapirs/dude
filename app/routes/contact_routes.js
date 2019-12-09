@@ -5,7 +5,7 @@ const corsOptions = {
 }
 const nodemailer = require('nodemailer');
 
-module.exports = function(app, db, cors) {
+module.exports = function(app, db, oidc, cors) {
   app.options('/contact', cors());
   app.options('/contact/:id', cors());
   app.get('/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
@@ -15,7 +15,7 @@ module.exports = function(app, db, cors) {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
-        res.render('contact-item', {subscribe: item});
+        res.render('contact-item', {contact: item});
       }
     });
   });
@@ -29,7 +29,7 @@ module.exports = function(app, db, cors) {
       }
     });
   });
-  app.post('/contact', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
+  app.post('/contact', cors(corsOptions), (req, res) => {
     let contact = '{'
     for(var prop in req.body) {
       if(req.body[prop] == "true" || req.body[prop] == "false") {

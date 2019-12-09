@@ -9,9 +9,6 @@ const db             = require('./config/db');
 const cors           = require('cors');
 const { ExpressOIDC } = require('@okta/oidc-middleware');
 
-var config = require('./config/config');
-const oidc = new ExpressOIDC(config.okta);
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(session({
@@ -19,6 +16,8 @@ app.use(session({
   resave: true,
   saveUninitialized: false
 }));
+var config = require('./config/config');
+const oidc = new ExpressOIDC(config.okta);
 app.use(oidc.router);
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views/');
