@@ -106,7 +106,7 @@ module.exports = function(app, db, oidc, cors) {
     var transporter = nodemailer.createTransport(config.email);
 
     var mailOptions = {
-      from: 'no-reply@tapirs.co.uk',
+      from: 'info@tapirs.co.uk',
       to: email,
       subject: subject,
       text: message
