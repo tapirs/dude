@@ -44,6 +44,24 @@ module.exports = function(app, db, oidc, cors) {
       if (err) {
         res.send({ 'error': 'An error has occurred' });
       } else {
+        let email = req.body["email"];
+        let subject = req.body["subject"];
+        let message = req.body["message"];
+
+        var transporter = nodemailer.createTransport(config.email);
+
+        var mailOptions = {
+          from: 'info@tapirs.co.uk',
+          to: 'andrew.partis@tapirs.co.uk; michelle.partis@tapirs.co.uk',
+          subject: "New contact",
+          text: submit + "-" + message
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          }
+        });
         res.redirect('/message_received.php');
       }
     });
