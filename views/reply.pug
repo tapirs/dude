@@ -5,7 +5,7 @@ html
     h1= "Reply"
     main
       .container
-        form(action='contact/send', method='POST')
+        form(action='/dude/contact/send', method='POST')
           div.form-group
             label(for='email') Email:
             input#email.form-control(type='email', name='email', value=email)

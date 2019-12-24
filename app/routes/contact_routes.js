@@ -4,6 +4,7 @@ const corsOptions = {
   methods: ['GET', 'POST', 'DELETE', 'PUT']
 }
 const nodemailer = require('nodemailer');
+var config = require('../../config/config');
 
 module.exports = function(app, db, oidc, cors) {
   app.options('/contact', cors());
@@ -40,6 +41,7 @@ module.exports = function(app, db, oidc, cors) {
     }
     contact = contact.substring(0,contact.length -1)
     contact += '}'
+    console.log(contact);
     db.collection('contact').insertOne(JSON.parse(contact), (err, result) => {
       if (err) {
         res.send({ 'error': 'An error has occurred' });
@@ -52,10 +54,12 @@ module.exports = function(app, db, oidc, cors) {
 
         var mailOptions = {
           from: 'info@tapirs.co.uk',
-          to: 'andrew.partis@tapirs.co.uk; michelle.partis@tapirs.co.uk',
+          to: 'andrew.partis@tapirs.co.uk, michelle.partis@tapirs.co.uk',
           subject: "New contact",
-          text: submit + "-" + message
+          text: subject + "-" + message
         };
+
+	console.log("sending mail");
 
         transporter.sendMail(mailOptions, function(error, info){
           if (error) {
@@ -133,6 +137,7 @@ module.exports = function(app, db, oidc, cors) {
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
         console.log(error);
+        res.send({'error':'An error has occurred'});
       } else {
         res.redirect('/dude/contact');
       }
