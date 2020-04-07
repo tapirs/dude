@@ -17,7 +17,10 @@
     "method-override": "^3.0.0",
     "express-session": "^1.17.0",
     "nodemailer": "^6.3.1",
-    "@okta/oidc-middleware": "^2.1.0"
+    "@okta/oidc-middleware": "^2.1.0",
+    "acorn": ">=5.7.4",
+    "minimist": ">=1.2.3",
+    "kind-of": ">=6.0.3"
   },
   "devDependencies": {
     "nodemon": "^1.19.3"

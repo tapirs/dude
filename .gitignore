@@ -4,7 +4,6 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-config/db.js
 
 # Runtime data
 pids
@@ -60,3 +59,5 @@ typings/
 
 # next.js build output
 .next
+
+config/*.js
