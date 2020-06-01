@@ -20,7 +20,7 @@ html
             tr
               - var href = "contact/" + item._id;
               td= item.name
-              td item.pronoun
+              td= item.pronoun
               td
                 | #[a(href=href) #{item.email}]
               td= item.phone
