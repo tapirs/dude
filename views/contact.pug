@@ -8,6 +8,7 @@ html
       table.table
         tr
           th Name
+          th Pronouns
           th Email
           th Phone
           th Contact Method
@@ -19,6 +20,7 @@ html
             tr
               - var href = "contact/" + item._id;
               td= item.name
+              td item.pronoun
               td
                 | #[a(href=href) #{item.email}]
               td= item.phone
