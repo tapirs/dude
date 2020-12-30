@@ -81,7 +81,11 @@ module.exports = function(app, db, oidc, cors) {
             console.log(error);
           }
         });
-        res.redirect('/message_received.php');
+        if (req.is('application/json')) {
+          res.send();
+        } else {
+          res.redirect('/message_received.php');
+        }
       }
     });
   });
