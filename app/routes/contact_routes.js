@@ -1,6 +1,14 @@
 var ObjectID = require('mongodb').ObjectID;
+
+var whitelist = ['http://127.0.0.1', 'https://dev.get-chips.co.uk', 'https://get-chips.co.uk']
 const corsOptions = {
-  origin: 'http://127.0.0.1',
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   methods: ['GET', 'POST', 'DELETE', 'PUT']
 }
 const nodemailer = require('nodemailer');
@@ -31,18 +39,25 @@ module.exports = function(app, db, oidc, cors) {
     });
   });
   app.post('/contact', cors(corsOptions), (req, res) => {
+    console.log(req.body);
     let contact = '{'
-    for(var prop in req.body) {
-      if(req.body[prop] == "true" || req.body[prop] == "false") {
-        contact += '"' + prop + '":' + req.body[prop] + ','
-      } else {
-        contact += '"' + prop + '":' + '"' + req.body[prop] + '",'
+    if (req.is('application/json')) {
+      console.log('its json')
+      contact = req.body
+    } else {
+      for(var prop in req.body) {
+        if(req.body[prop] == "true" || req.body[prop] == "false") {
+          contact += '"' + prop + '":' + req.body[prop] + ','
+        } else {
+          contact += '"' + prop + '":' + '"' + req.body[prop] + '",'
+        }
       }
+      contact = contact.substring(0,contact.length -1)
+      contact += '}'
+      contact = JSON.parse(contact);
     }
-    contact = contact.substring(0,contact.length -1)
-    contact += '}'
     console.log(contact);
-    db.collection('contact').insertOne(JSON.parse(contact), (err, result) => {
+    db.collection('contact').insertOne(contact, (err, result) => {
       if (err) {
         res.send({ 'error': 'An error has occurred' });
       } else {

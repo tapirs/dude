@@ -10,6 +10,7 @@ const cors           = require('cors');
 const { ExpressOIDC } = require('@okta/oidc-middleware');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 app.use(session({
   secret: 'jrehgruethuioafhegBUFIEHFEui3482954hu4ialgbr',
