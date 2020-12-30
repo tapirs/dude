@@ -1,6 +1,6 @@
 var ObjectID = require('mongodb').ObjectID;
 
-var whitelist = ['http://127.0.0.1', 'https://dev.get-chips.co.uk', 'https://get-chips.co.uk']
+var whitelist = ['http://127.0.0.1', 'https://tapirs.co.uk', 'https://dev.tapirs.co.uk', 'https://dev.get-chips.co.uk', 'https://get-chips.co.uk']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
