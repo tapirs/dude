@@ -3,6 +3,7 @@ var ObjectID = require('mongodb').ObjectID;
 var whitelist = ['http://127.0.0.1', 'https://tapirs.co.uk', 'https://dev.tapirs.co.uk', 'https://dev.get-chips.co.uk', 'https://get-chips.co.uk']
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log(origin)
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
@@ -15,9 +16,9 @@ const nodemailer = require('nodemailer');
 var config = require('../../config/config');
 
 module.exports = function(app, db, oidc, cors) {
-  app.options('/contact', cors());
-  app.options('/contact/:id', cors());
-  app.get('/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
+  app.options('/dude/contact', cors());
+  app.options('/dude/contact/:id', cors());
+  app.get('/dude/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     db.collection('contact').findOne(details, (err, item) => {
@@ -28,7 +29,7 @@ module.exports = function(app, db, oidc, cors) {
       }
     });
   });
-  app.get('/contact', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
+  app.get('/dude/contact', oidc.ensureAuthenticated(), (req, res) => {
     db.collection('contact').find({}).toArray((err, item) => {
       if (err) {
         res.send({'error':'An error has occurred'});
@@ -38,7 +39,7 @@ module.exports = function(app, db, oidc, cors) {
       }
     });
   });
-  app.post('/contact', cors(corsOptions), (req, res) => {
+  app.post('/dude/contact', cors(corsOptions), (req, res) => {
     console.log(req.body);
     let contact = '{'
     if (req.is('application/json')) {
@@ -89,7 +90,7 @@ module.exports = function(app, db, oidc, cors) {
       }
     });
   });
-  app.delete('/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
+  app.delete('/dude/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     db.collection('contact').deleteOne(details, (err, item) => {
@@ -101,7 +102,7 @@ module.exports = function(app, db, oidc, cors) {
       }
     });
   });
-  app.put('/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
+  app.put('/dude/contact/:id', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     let contact = '{'
@@ -122,7 +123,7 @@ module.exports = function(app, db, oidc, cors) {
       }
     });
   });
-  app.get('/contact/admin/keys', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
+  app.get('/dude/contact/admin/keys', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     const details = { 'contact_name': 'Rethink' };
     db.collection('contact').findOne( details, (err, result) => {
       if (err) {
@@ -132,14 +133,14 @@ module.exports = function(app, db, oidc, cors) {
         }
     });
   });
-  app.post('/contact/reply', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
+  app.post('/dude/contact/reply', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     let email = req.body["email"];
     let subject = "RE: " + req.body["subject"];
     let message = "\n\n======================================================\n\n" + req.body["message"];
 
     res.render('reply', {email: email, subject: subject, message: message});
   });
-  app.post('/contact/send', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
+  app.post('/dude/contact/send', oidc.ensureAuthenticated(), cors(corsOptions), (req, res) => {
     let email = req.body["email"];
     let subject = req.body["subject"];
     let message = req.body["message"];
