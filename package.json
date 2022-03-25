@@ -19,7 +19,7 @@
     "nodemailer": "^6.4.16",
     "@okta/oidc-middleware": "^4.0.1",
     "acorn": ">=8.0.1",
-    "minimist": ">=1.2.5",
+    "minimist": ">=1.2.6",
     "kind-of": ">=6.0.3"
   },
   "devDependencies": {
