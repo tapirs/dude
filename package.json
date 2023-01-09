@@ -17,7 +17,7 @@
     "method-override": "^3.0.0",
     "express-session": "^1.17.1",
     "nodemailer": "^6.4.16",
-    "@okta/oidc-middleware": "^4.0.1",
+    "@okta/oidc-middleware": "^5.0.0",
     "acorn": ">=8.0.1",
     "minimist": ">=1.2.5",
     "kind-of": ">=6.0.3"
